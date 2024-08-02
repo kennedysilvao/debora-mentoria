@@ -29,3 +29,19 @@ Excluir usuario por id
 
     ${response}    DELETE On Session    url=${API}/usuarios/${id}    alias=serverest
     Should Be Equal As Strings    ${response.status_code}    200
+
+Criar usuario
+    [Arguments]    ${user}
+
+    ${response}    POST On Session    url=${API}/usuarios    alias=serverest
+    ...    json=${user}
+    
+    Should Be Equal As Strings    ${response.status_code}    201
+
+Gerenciamento de usuario
+    [Arguments]    ${email}    ${user}
+    Criar sessão
+
+    ${user_id}    Buscar usuario email    ${email}
+    Excluir usuario por id    ${user_id}
+    Criar usuario    ${user}
